@@ -1,0 +1,89 @@
+\documentclass[12pt, a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english, russian]{babel}
+\usepackage{verbatim} % для отображения кода
+
+\title{Tetris Documentation}
+\author{desmonsu}
+\date{19.09.2025}
+
+\begin{document}
+\maketitle
+
+\chapter{TETRIS}
+
+Версия классического тетриса, написанная на языке C в рамках учебного проекта \texttt{C7\_brick\_game\_v1.0}. Оригинал написан Алексеем Пажитновым. Эта версия исполнена пиром desmonsu.
+
+\section{Особенности}
+
+\begin{enumerate}
+\item Присутствует рандомная генерация всех тетрамино, представленных в оригинальной игре
+\item Управление ходом игры реализовано с помощью конечного автомата
+\item Серверная часть игры инкапсулирована от FSM и фронтенда
+\item Реализована система подсчета очков и сохранения их в таблице рекордов
+\item Реализована механика уровней в зависимости от набранных очков
+\item Интерфейс соответствует оригинальной игре
+\end{enumerate}
+
+\section{Требования}
+
+\begin{enumerate}
+\item Компилятор gcc
+\item Установленная библиотека ncurses
+\item Система сборки Make
+\end{enumerate}
+
+\section{Установка}
+
+\texttt{make install}
+
+\section{Удаление}
+
+\texttt{make uninstall}
+
+\section{Запуск}
+
+\begin{verbatim}
+cd build/s21_tetris
+./s21_tetris
+\end{verbatim}
+
+\section{Управление}
+
+\begin{itemize}
+\item Start - Ввод - начало игры, рестарт
+\item Action - Пробел - поворот фигуры
+\item Up - W - не используется в игре
+\item Down - S - Падение фигуры (Hard drop)
+\item Left - A - Сдвиг фигуры влево
+\item Right - D - Сдвиг фигуры вправо
+\item Terminate - Q - Выход из игры
+\item Pause - P - Пауза
+\end{itemize}
+
+Кнопки букв регистронезависимы.
+
+\section{Прочие команды Makefile}
+
+\subsection{Запуск тестов}
+
+\texttt{make test}
+
+\subsection{Генерация gcov-отчета}
+
+\texttt{make gcov\_report}
+
+\subsection{Очистка артефактов сборки}
+
+\texttt{make clean}
+
+\subsection{Создание документации}
+
+\texttt{make dvi}
+
+\subsection{Создание дистрибутива}
+
+\texttt{make dist}
+
+\end{document}
