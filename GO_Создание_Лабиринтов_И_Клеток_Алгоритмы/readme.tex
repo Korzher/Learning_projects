@@ -1,0 +1,85 @@
+\documentclass[12pt, a4paper]{report}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{russian}
+\setotherlanguage{english}
+\setmainfont{Liberation Serif}
+\newfontfamily{\cyrillicfont}{Liberation Serif}
+\newfontfamily{\cyrillicfonttt}{Liberation Mono}
+\usepackage{verbatim}
+
+\title{Maze Documentation}
+\author{desmonsu, heraaero}
+\date{18.01.2026}
+
+\begin{document}
+\maketitle
+
+\chapter{Maze}
+
+Генератор лабиринтов и пещер в рамках проекта школы21 \texttt{A1\_Maze\_Go}.
+
+\section{Особенности}
+
+\begin{enumerate}
+\item Присутствует возможность подгрузки и сохранения кастомных лабиринтов и пещер
+\item Рандомная генерация идеального лабиринта при помощи алгоритма Эллера
+\item Генерация пещер с использованием клеточного автомата
+\item Реализованы GUI-версия десктоп приложения и web-сервер
+\item Имеется механика решения лабиринтов
+\item Имеется возможность обучение ML-агента на выбранном пользователем лабиринте методом Q-обучения
+\item Интерфейс соответствует оригинальной игре
+\end{enumerate}
+
+\section{Требования}
+
+\begin{enumerate}
+\item Компилятор go
+\item Установленный фреймворк Wails и его зависимости (webview, webkit, nodejs, npm)
+\item Система сборки Make
+\end{enumerate}
+
+\section{Установка}
+
+\texttt{make install}
+
+\section{Удаление}
+
+\texttt{make uninstall}
+
+\section{Запуск}
+
+\begin{verbatim}
+make run
+make runconsole
+make runweb
+\end{verbatim}
+
+\section{Ограничения}
+
+\begin{itemize}
+\item Размер поля для лабиринта или пещеры - 50х50
+\item Числа в настройках не могут быть отрицательными
+\item Числа для поиска пути не могут выходить за пределы лабиринта
+\end{itemize}
+
+
+\section{Прочие команды Makefile}
+
+\subsection{Запуск тестов}
+
+\texttt{make test}
+
+\subsection{Очистка артефактов сборки}
+
+\texttt{make clean}
+
+\subsection{Создание документации}
+
+\texttt{make dvi}
+
+\subsection{Создание дистрибутива}
+
+\texttt{make dist}
+
+\end{document}
