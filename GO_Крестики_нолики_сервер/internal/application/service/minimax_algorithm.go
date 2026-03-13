@@ -1,16 +1,16 @@
 package service
 
 import (
-	"errors"
 	"math"
 	"tic-tac-toe/internal/domain"
+	"tic-tac-toe/pkg/contracts"
 )
 
-type MinimaxAlgorithm struct {}
+type MinimaxAlgorithm struct{}
 
 func (m *MinimaxAlgorithm) GetBestMove(board domain.Board, player domain.CellValue) (int, int, error) {
 	if player != domain.O && player != domain.X {
-		return -1, -1, errors.New("invalid player")
+		return -1, -1, contracts.ErrInvalidPlayer
 	}
 	opponent := domain.O
 	if player == domain.O {
@@ -35,7 +35,7 @@ func (m *MinimaxAlgorithm) GetBestMove(board domain.Board, player domain.CellVal
 	}
 
 	if bestRow == -1 || bestCol == -1 {
-		return -1, -1, errors.New("no valid move found")
+		return -1, -1, contracts.ErrNoMoves
 	}
 	return bestRow, bestCol, nil
 }
@@ -65,7 +65,7 @@ func (m *MinimaxAlgorithm) minimax(
 				if board[row][col] == domain.Empty {
 					newBoard := board
 					newBoard[row][col] = player
-					score := m.minimax(newBoard, depth + 1, false, player, opponent)
+					score := m.minimax(newBoard, depth+1, false, player, opponent)
 					bestScore = math.Max(bestScore, score)
 				}
 			}
@@ -94,7 +94,7 @@ func evaluateBoard(board domain.Board, player domain.CellValue, opponent domain.
 	if checkWinner(board, opponent) {
 		return -10
 	}
-	for row := 0; row < 3; row++{
+	for row := 0; row < 3; row++ {
 		for col := 0; col < 3; col++ {
 			if board[row][col] == domain.Empty {
 				return 1
@@ -105,33 +105,33 @@ func evaluateBoard(board domain.Board, player domain.CellValue, opponent domain.
 }
 
 func checkWinner(board domain.Board, player domain.CellValue) bool {
-    for row := 0; row < 3; row++ {
-        if board[row][0] == player && 
-           board[row][1] == player && 
-           board[row][2] == player {
-            return true
-        }
-    }
-    
-    for col := 0; col < 3; col++ {
-        if board[0][col] == player && 
-           board[1][col] == player && 
-           board[2][col] == player {
-            return true
-        }
-    }
+	for row := 0; row < 3; row++ {
+		if board[row][0] == player &&
+			board[row][1] == player &&
+			board[row][2] == player {
+			return true
+		}
+	}
 
-    if board[0][0] == player && 
-       board[1][1] == player && 
-       board[2][2] == player {
-        return true
-    }
-    
-    if board[0][2] == player && 
-       board[1][1] == player && 
-       board[2][0] == player {
-        return true
-    }
-    
-    return false
+	for col := 0; col < 3; col++ {
+		if board[0][col] == player &&
+			board[1][col] == player &&
+			board[2][col] == player {
+			return true
+		}
+	}
+
+	if board[0][0] == player &&
+		board[1][1] == player &&
+		board[2][2] == player {
+		return true
+	}
+
+	if board[0][2] == player &&
+		board[1][1] == player &&
+		board[2][0] == player {
+		return true
+	}
+
+	return false
 }

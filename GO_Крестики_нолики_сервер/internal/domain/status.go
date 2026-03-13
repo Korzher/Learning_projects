@@ -7,4 +7,5 @@ const (
 	StatusXWin       GameStatus = "X_WIN"
 	StatusOWin       GameStatus = "O_WIN"
 	StatusDraw       GameStatus = "DRAW"
+	StatusWaiting    GameStatus = "WAITING"
 )
