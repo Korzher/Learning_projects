@@ -1,0 +1,7 @@
+Hello World
+hello world
+HELLO WORLD
+Testing -i flag
+Another line
+12345
+test line

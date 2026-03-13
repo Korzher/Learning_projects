@@ -1,0 +1,7 @@
+hello universe
+HELLO Universe
+Testing -v flag
+No match here
+Another test line
+67890
+TEST

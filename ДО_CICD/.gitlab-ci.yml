@@ -1,0 +1,116 @@
+stages:
+  - build
+  - code-style
+  - test
+  - notify-ci
+  - deploy
+  - notify-cd
+
+build-cat:
+  stage: build
+  script:
+    - bash notify.sh "CI start"
+    - cd src/SimpleBashUtils/cat && make all
+    - test -f s21_cat || exit 1
+  artifacts:
+    paths:
+      - src/SimpleBashUtils/cat/s21_cat
+      - src/SimpleBashUtils/cat/build/
+    expire_in: 30 days
+    when: always
+
+build-grep:
+  stage: build
+  script:
+    - cd src/SimpleBashUtils/grep && make all
+    - test -f s21_grep || exit 1
+  artifacts:
+    paths:
+      - src/SimpleBashUtils/grep/s21_grep
+      - src/SimpleBashUtils/grep/build/
+    expire_in: 30 days
+    when: always
+
+lint-test-cat:
+  stage: code-style
+  script:
+    - cp materials/linters/.clang-format src/SimpleBashUtils/
+    - cd src/SimpleBashUtils/cat/
+    - clang-format -n --Werror *.c
+    - echo "No lint issues found"
+
+lint-test-grep:
+  stage: code-style
+  script:
+    - cp materials/linters/.clang-format src/SimpleBashUtils/
+    - cd src/SimpleBashUtils/grep/
+    - clang-format -n --Werror *.c
+    - echo "No lint issues found"
+
+unit-test:
+  stage: test
+  script:
+    - cd src/SimpleBashUtils/cat && make test_cat
+    - ./test_cat
+    - cd ../../../
+    - cd src/SimpleBashUtils/grep && make test_grep
+    - ./test_grep
+    - cd ../../../
+    - echo "SUCCESS" > result.txt
+  artifacts:
+    paths:
+      - result.txt
+    expire_in: 30 day    
+
+notify-ci-job:
+  stage: notify-ci
+  script:
+    - if grep -qx "SUCCESS" result.txt; then
+          bash notify.sh "CI finish" "success";
+      else
+          bash notify.sh "CI finish" "fail";
+      fi
+  dependencies:
+    - unit-test
+  when: always
+
+
+
+
+deploy-to-vm:
+  stage: deploy
+  before_script:
+    - bash notify.sh "CD start"
+    - chmod 600 ./deploy_key
+    - mkdir -p ~/.ssh
+    - ssh-keyscan -H 10.31.170.203 >> ~/.ssh/known_hosts
+  script:
+    - chmod +x src/deploy_to_vm.sh
+    - bash src/deploy_to_vm.sh
+    - echo "SUCCESS" > deploy_result.txt;
+  after_script:
+    - rm -f ./deploy_key
+  artifacts:
+    paths:
+      - deploy_result.txt
+    expire_in: 30 day
+    when: always
+  allow_failure: false
+  dependencies:
+    - build-cat
+    - build-grep
+  only:
+    - develop
+  when: manual
+
+notify-cd-job:
+  stage: notify-cd
+  script:
+    - if grep -qx "SUCCESS" deploy_result.txt; then
+          bash notify.sh "CD finish" "success";
+      else
+          bash notify.sh "CD finish" "fail";
+      fi
+  dependencies:
+    - deploy-to-vm
+  when: always
