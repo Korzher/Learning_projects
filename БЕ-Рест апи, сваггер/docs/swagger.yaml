@@ -1,0 +1,881 @@
+basePath: /api/v1
+definitions:
+  apifromspec_internal_domain.Gender:
+    enum:
+    - M
+    - F
+    type: string
+    x-enum-varnames:
+    - Male
+    - Female
+  apifromspec_internal_domain.Product:
+    properties:
+      availableStock:
+        type: integer
+      category:
+        type: string
+      id:
+        type: string
+      imageID:
+        type: string
+      lastUpdateDate:
+        type: string
+      name:
+        type: string
+      price:
+        format: int64
+        type: integer
+      supplierID:
+        type: string
+    type: object
+  apifromspec_internal_pkg.AddClientRequest:
+    properties:
+      birthday:
+        example: "1990-01-15T00:00:00Z"
+        type: string
+      city:
+        example: Moscow
+        type: string
+      client_name:
+        example: Ivan
+        type: string
+      client_surname:
+        example: Petrov
+        type: string
+      country:
+        example: Russia
+        type: string
+      gender:
+        allOf:
+        - $ref: '#/definitions/apifromspec_internal_domain.Gender'
+        example: M
+      street:
+        example: Tverskaya
+        type: string
+    type: object
+  apifromspec_internal_pkg.AddImageRequest:
+    properties:
+      image:
+        format: base64
+        type: string
+      product_id:
+        example: 770e8400-e29b-41d4-a716-446655440022
+        type: string
+    type: object
+  apifromspec_internal_pkg.AddProductRequest:
+    properties:
+      available_stock:
+        example: 10
+        type: integer
+      category:
+        example: Laptops
+        type: string
+      image:
+        format: base64
+        type: string
+      name:
+        example: Laptop Air
+        type: string
+      price:
+        example: 120000
+        type: integer
+      supplier_id:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+    type: object
+  apifromspec_internal_pkg.AddSupplierRequest:
+    properties:
+      city:
+        example: Moscow
+        type: string
+      country:
+        example: Russia
+        type: string
+      name:
+        example: Tech Wholesale
+        type: string
+      phone_number:
+        example: "+70001112233"
+        type: string
+      street:
+        example: Tverskaya
+        type: string
+    type: object
+  apifromspec_internal_pkg.AddressChangeRequest:
+    properties:
+      city:
+        example: Saint Petersburg
+        type: string
+      country:
+        example: Russia
+        type: string
+      street:
+        example: Nevskiy Prospect
+        type: string
+    type: object
+  apifromspec_internal_pkg.ChangeImageRequest:
+    properties:
+      image:
+        format: base64
+        type: string
+    type: object
+  apifromspec_internal_pkg.GetClientsMeta:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/apifromspec_internal_pkg.GetClientsResponse'
+        type: array
+      pagination:
+        $ref: '#/definitions/apifromspec_internal_pkg.Pagination'
+    type: object
+  apifromspec_internal_pkg.GetClientsResponse:
+    properties:
+      address_id:
+        example: 660f8400-e29b-41d4-a716-446655440011
+        type: string
+      birthday:
+        example: "1990-01-15T00:00:00Z"
+        type: string
+      client_name:
+        example: Ivan
+        type: string
+      client_surname:
+        example: Petrov
+        type: string
+      gender:
+        allOf:
+        - $ref: '#/definitions/apifromspec_internal_domain.Gender'
+        example: M
+      id:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      registration_date:
+        example: "2026-04-28T10:00:00Z"
+        type: string
+    type: object
+  apifromspec_internal_pkg.GetProductResponse:
+    properties:
+      available_stock:
+        example: 10
+        type: integer
+      category:
+        example: Laptops
+        type: string
+      id:
+        example: 770e8400-e29b-41d4-a716-446655440022
+        type: string
+      image_id:
+        example: 880e8400-e29b-41d4-a716-446655440033
+        type: string
+      last_update_date:
+        example: "2026-04-28T12:00:00Z"
+        type: string
+      name:
+        example: Laptop Air
+        type: string
+      price:
+        example: 120000
+        type: integer
+      supplier_id:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+    type: object
+  apifromspec_internal_pkg.GetSupplierResponse:
+    properties:
+      address_id:
+        example: 660f8400-e29b-41d4-a716-446655440011
+        type: string
+      id:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      name:
+        example: Tech Wholesale
+        type: string
+      phone_number:
+        example: "+70001112233"
+        type: string
+    type: object
+  apifromspec_internal_pkg.Pagination:
+    properties:
+      limit:
+        example: 3
+        type: integer
+      next_offset:
+        example: 1
+        type: integer
+      offset:
+        example: 0
+        type: integer
+      total:
+        example: 5
+        type: integer
+    type: object
+  apifromspec_internal_pkg.SubtractProductRequest:
+    properties:
+      amount:
+        example: 3
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact:
+    name: desmonsu
+  description: Реализация RestAPI на Go с использование Swagger для документации
+  termsOfService: http://swagger.io/terms
+  title: School 21 ApiFromSpec docs
+  version: "1.0"
+paths:
+  /clients:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает массив клиентов с метаинформацией о пагинации
+      parameters:
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      - description: offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: список клиентов с метаинформацией
+          schema:
+            $ref: '#/definitions/apifromspec_internal_pkg.GetClientsMeta'
+        "500":
+          description: failed to fetch clients
+          schema:
+            type: string
+      summary: Получает всех клиентов из базы данных с пагинацией
+      tags:
+      - clients
+    post:
+      consumes:
+      - application/json
+      description: Возвращает информацию об успешности операции
+      parameters:
+      - description: Данные для добавления клиента
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/apifromspec_internal_pkg.AddClientRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: client created successfully
+          schema:
+            $ref: '#/definitions/apifromspec_internal_pkg.GetClientsResponse'
+        "400":
+          description: wrong input format or validation error
+          schema:
+            type: string
+        "409":
+          description: client already exists
+          schema:
+            type: string
+        "500":
+          description: failed to add client
+          schema:
+            type: string
+      summary: Добавление клиента в базу данных
+      tags:
+      - clients
+  /clients/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Возвращает информацию об успешности операции
+      parameters:
+      - description: ID клиента для удаления
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: client deleted successfully
+          schema:
+            type: string
+        "400":
+          description: wrong input format or can not parse id from URL
+          schema:
+            type: string
+        "404":
+          description: client not found
+          schema:
+            type: string
+        "500":
+          description: failed to delete client
+          schema:
+            type: string
+      summary: Удаляет клиента из базы данных
+      tags:
+      - clients
+  /clients/{id}/address:
+    patch:
+      consumes:
+      - application/json
+      description: Заменяет адрес клиента в базе данных
+      parameters:
+      - description: ID клиента
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Параметры нового адреса клиента
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/apifromspec_internal_pkg.AddressChangeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: address changed successfully
+          schema:
+            type: string
+        "400":
+          description: wrong input format or validation error
+          schema:
+            type: string
+        "404":
+          description: id not found
+          schema:
+            type: string
+        "500":
+          description: failed to process address
+          schema:
+            type: string
+      summary: Смена адреса для клиента
+      tags:
+      - clients
+  /clients/search:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает массив клиентов, соответствующих запросу. Если клиенты
+        не найдены, возвращает пустой массив.
+      parameters:
+      - description: Имя клиента
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: Фамилия клиента
+        in: query
+        name: surname
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: список клиентов (может быть пустым)
+          schema:
+            $ref: '#/definitions/apifromspec_internal_pkg.GetClientsResponse'
+        "400":
+          description: name and surname are required
+          schema:
+            type: string
+        "500":
+          description: failed to fetch client
+          schema:
+            type: string
+      summary: Получает клиентов из базы данных по имени и фамилии
+      tags:
+      - clients
+  /image:
+    post:
+      consumes:
+      - application/json
+      description: Добавление изображения к существующему товару
+      parameters:
+      - description: ID продукта и новое изображение в формате base64
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/apifromspec_internal_pkg.AddImageRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: image added and assigned to product successfully
+          schema:
+            type: string
+        "400":
+          description: wrong input format or validation error
+          schema:
+            type: string
+        "500":
+          description: failed to add image to product
+          schema:
+            type: string
+      summary: Добавление изображения продукту
+      tags:
+      - images
+  /image/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Удаление  изображения из базы
+      parameters:
+      - description: ID изображения
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: image deleted successfully
+          schema:
+            type: string
+        "400":
+          description: invalid image id
+          schema:
+            type: string
+        "404":
+          description: image not found
+          schema:
+            type: string
+        "500":
+          description: failed to delete image
+          schema:
+            type: string
+      summary: Удаление изображения
+      tags:
+      - images
+    get:
+      consumes:
+      - application/json
+      description: Получение изображения по id изображения
+      parameters:
+      - description: ID изображения
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: изображение в виде файла
+          schema:
+            type: file
+        "400":
+          description: invalid image id
+          schema:
+            type: string
+        "404":
+          description: image not found
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Получение изображения по id изображения
+      tags:
+      - images
+    put:
+      consumes:
+      - application/json
+      description: Изменение существующего  изображения в базе
+      parameters:
+      - description: ID изображения
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: новое изображение в формате base64
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/apifromspec_internal_pkg.ChangeImageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: image changed successfully
+          schema:
+            type: string
+        "400":
+          description: invalid id format, wrong input format or validation error
+          schema:
+            type: string
+        "404":
+          description: image not found
+          schema:
+            type: string
+        "500":
+          description: failed to change image
+          schema:
+            type: string
+      summary: Изменение изображения в базе
+      tags:
+      - images
+  /image/product/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Получение изображения по id товара
+      parameters:
+      - description: ID товара
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: изображение в виде файла
+          schema:
+            type: file
+        "400":
+          description: invalid product id
+          schema:
+            type: string
+        "404":
+          description: image not found
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Получение изображения по id товара
+      tags:
+      - images
+  /products:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает массив товаров. Если товары не найдены, возвращает пустой
+        массив.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/apifromspec_internal_pkg.GetProductResponse'
+            type: array
+        "500":
+          description: fail to fetch products
+          schema:
+            type: string
+      summary: Получение всех товаров
+      tags:
+      - products
+    post:
+      consumes:
+      - application/json
+      description: Возвращает информацию об успешности операции
+      parameters:
+      - description: Данные для добавления товара
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/apifromspec_internal_pkg.AddProductRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: product added successfully
+          schema:
+            $ref: '#/definitions/apifromspec_internal_domain.Product'
+        "400":
+          description: wrong input format or validation error
+          schema:
+            type: string
+        "500":
+          description: failed to create product
+          schema:
+            type: string
+      summary: Добавление товара в базу данных
+      tags:
+      - products
+  /products/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Возвращает информацию об успешности операции
+      parameters:
+      - description: ID товара для удаления
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: product deleted successfully
+          schema:
+            type: string
+        "400":
+          description: wrong input format or can not parse id from URL
+          schema:
+            type: string
+        "404":
+          description: product not found
+          schema:
+            type: string
+        "500":
+          description: failed to delete product
+          schema:
+            type: string
+      summary: Удаляет товар из базы данных
+      tags:
+      - products
+    get:
+      consumes:
+      - application/json
+      description: Возвращает найденный товар
+      parameters:
+      - description: ID товара
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/apifromspec_internal_pkg.GetProductResponse'
+        "400":
+          description: wrong input format
+          schema:
+            type: string
+        "404":
+          description: product not found
+          schema:
+            type: string
+        "500":
+          description: internal error
+          schema:
+            type: string
+      summary: Получение товара по id
+      tags:
+      - products
+  /products/{id}/subtract:
+    patch:
+      consumes:
+      - application/json
+      description: Возвращает информацию об успешности операции
+      parameters:
+      - description: ID товара
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Данные для вычитания товара
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/apifromspec_internal_pkg.SubtractProductRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: amount decreased successfully
+          schema:
+            type: string
+        "400":
+          description: wrong input format, validation error or insufficient stock
+          schema:
+            type: string
+        "500":
+          description: internal error
+          schema:
+            type: string
+      summary: Вычитание товара из базы при наличии
+      tags:
+      - products
+  /suppliers:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает массив поставщиков. Если товары не найдены, возвращает
+        пустой массив.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/apifromspec_internal_pkg.GetSupplierResponse'
+            type: array
+        "500":
+          description: fail to fetch suppliers
+          schema:
+            type: string
+      summary: Получение всех поставщиков
+      tags:
+      - suppliers
+    post:
+      consumes:
+      - application/json
+      description: Добавление поставщика в базу данных
+      parameters:
+      - description: Данные для добавления поставщика
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/apifromspec_internal_pkg.AddSupplierRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: supplier added successfully
+          schema:
+            type: string
+        "400":
+          description: wrong input format
+          schema:
+            type: string
+        "409":
+          description: supplier already exists
+          schema:
+            type: string
+        "500":
+          description: internal error
+          schema:
+            type: string
+      summary: Добавление поставщика
+      tags:
+      - suppliers
+  /suppliers/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Возвращает информацию об успешности операции
+      parameters:
+      - description: ID поставщика для удаления
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: supplier deleted successfully
+          schema:
+            type: string
+        "400":
+          description: wrong input format or can not parse id from URL
+          schema:
+            type: string
+        "404":
+          description: supplier not found
+          schema:
+            type: string
+        "500":
+          description: failed to delete supplier
+          schema:
+            type: string
+      summary: Удаляет поставщика из базы данных
+      tags:
+      - suppliers
+    get:
+      consumes:
+      - application/json
+      description: Возвращает найденного поставщика
+      parameters:
+      - description: ID поставщика
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/apifromspec_internal_pkg.GetSupplierResponse'
+        "400":
+          description: can not parse id from URL
+          schema:
+            type: string
+        "404":
+          description: supplier not found
+          schema:
+            type: string
+        "500":
+          description: fail to fetch supplier
+          schema:
+            type: string
+      summary: Получение поставщика по id
+      tags:
+      - suppliers
+  /suppliers/{id}/address:
+    patch:
+      consumes:
+      - application/json
+      description: Заменяет адрес поставщика в базе данных
+      parameters:
+      - description: ID поставщика
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Параметры нового адреса поставщика
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/apifromspec_internal_pkg.AddressChangeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: address changed successfully
+          schema:
+            type: string
+        "400":
+          description: wrong input format or validation error
+          schema:
+            type: string
+        "404":
+          description: id not found
+          schema:
+            type: string
+        "500":
+          description: failed to process address
+          schema:
+            type: string
+      summary: Смена адреса для поставщика
+      tags:
+      - suppliers
+swagger: "2.0"

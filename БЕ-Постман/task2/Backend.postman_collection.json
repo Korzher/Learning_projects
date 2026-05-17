@@ -1,0 +1,90 @@
+{
+  "info": {
+    "_postman_id": "0ee47f81-b055-49d9-9726-4307d8a11410",
+    "name": "Backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52263790",
+    "_collection_link": "https://go.postman.co/collection/52263790-0ee47f81-b055-49d9-9726-4307d8a11410?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "task-2.1 hh popup",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://hh.ru/applicant/vacancy_response/popup?vacancyId=131351007&isTest=no&withoutTest=no&lux=true&alreadyApplied=false",
+          "protocol": "https",
+          "host": [
+            "hh",
+            "ru"
+          ],
+          "path": [
+            "applicant",
+            "vacancy_response",
+            "popup"
+          ],
+          "query": [
+            {
+              "key": "vacancyId",
+              "value": "131351007"
+            },
+            {
+              "key": "isTest",
+              "value": "no"
+            },
+            {
+              "key": "withoutTest",
+              "value": "no"
+            },
+            {
+              "key": "lux",
+              "value": "true"
+            },
+            {
+              "key": "alreadyApplied",
+              "value": "false"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "task-2.2 hh aplication",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "https://hh.ru/shards/vacancy/register_interaction",
+          "protocol": "https",
+          "host": [
+            "hh",
+            "ru"
+          ],
+          "path": [
+            "shards",
+            "vacancy",
+            "register_interaction"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "New Request Copy",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "API Key",
+      "value": "",
+      "type": "default"
+    }
+  ]
+}

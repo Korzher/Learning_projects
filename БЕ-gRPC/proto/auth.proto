@@ -1,0 +1,60 @@
+syntax = "proto3";
+package auth;
+
+option go_package = "./gen;auth";
+
+service AuthService {
+    rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+    rpc Authenticate(AuthenticateRequest) returns (AuthenticateResponse);
+    rpc VerifyToken(VerifyTokenRequest) returns (VerifyTokenResponse);
+    rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse);
+    rpc ResetPassword(ResetPasswordRequest) returns (ResetPasswordResponse);
+}
+
+message CreateUserRequest {
+    string email = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string phone = 4;
+    string password = 5;
+}
+
+message CreateUserResponse {
+    string token = 1;
+}
+
+message AuthenticateRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message AuthenticateResponse {
+    string token = 1;
+}
+
+message VerifyTokenRequest {
+    string token = 1; 
+}
+
+message VerifyTokenResponse {
+    bool valid = 1;
+}
+
+message ChangePasswordRequest {
+    string old_password = 1;
+    string new_password = 2;
+}
+
+message ChangePasswordResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message ResetPasswordRequest {
+    string email = 1;
+}
+
+message ResetPasswordResponse {
+    bool success = 1;
+    string message = 2;
+}

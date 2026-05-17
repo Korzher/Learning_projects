@@ -1,0 +1,194 @@
+{
+  "info": {
+    "_postman_id": "0ee47f81-b055-49d9-9726-4307d8a11410",
+    "name": "Backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52263790",
+    "_collection_link": "https://go.postman.co/collection/52263790-0ee47f81-b055-49d9-9726-4307d8a11410?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "task-1 All Linux",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{API Key}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "",
+            "value": "",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "https://newsapi.org/v2/everything?q=linux",
+          "protocol": "https",
+          "host": [
+            "newsapi",
+            "org"
+          ],
+          "path": [
+            "v2",
+            "everything"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "linux",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "task-2 Разработка за 15 дней",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{API Key}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "",
+            "value": "",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "https://newsapi.org/v2/everything?q=linux",
+          "protocol": "https",
+          "host": [
+            "newsapi",
+            "org"
+          ],
+          "path": [
+            "v2",
+            "everything"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "linux",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "task-3 linux на русском 10 страниц",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{API Key}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "",
+            "value": "",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "https://newsapi.org/v2/everything?q=linux",
+          "protocol": "https",
+          "host": [
+            "newsapi",
+            "org"
+          ],
+          "path": [
+            "v2",
+            "everything"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "linux",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "task-4 Наука",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{API Key}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "",
+            "value": "",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "https://newsapi.org/v2/everything?q=linux",
+          "protocol": "https",
+          "host": [
+            "newsapi",
+            "org"
+          ],
+          "path": [
+            "v2",
+            "everything"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "linux",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "API Key",
+      "value": "",
+      "type": "default"
+    }
+  ]
+}
