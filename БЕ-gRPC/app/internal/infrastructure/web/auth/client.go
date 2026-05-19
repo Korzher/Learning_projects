@@ -20,7 +20,7 @@ type Client struct {
 func NewClient() (*Client, error) {
 	addr := os.Getenv("addr")
 	if addr == "" {
-		addr = "localhost:50051"
+		addr = "auth:50051"
 	}
 	conn, err := grpc.NewClient(addr,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),

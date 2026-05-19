@@ -93,16 +93,16 @@ func (a *AuthHandler) ChangePassword(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	authHeader := r.Header.Get("Authorization")
-    parts := strings.Split(authHeader, " ")
-    if len(parts) != 2 {
-        utils.RespondJSON(w, http.StatusUnauthorized, "invalid token")
-        return
-    }
-    token := parts[1]
+	parts := strings.Split(authHeader, " ")
+	if len(parts) != 2 || strings.ToLower(parts[0]) != "bearer" {
+		utils.RespondJSON(w, http.StatusUnauthorized, "invalid token")
+		return
+	}
+	token := parts[1]
 
 	ctx := r.Context()
 	if err := a.client.ChangePassword(ctx, token, req.OldPassword, req.NewPassword); err != nil {
-		utils.RespondJSON(w, http.StatusInternalServerError, "reset failed")
+		utils.RespondJSON(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 	utils.RespondJSON(w, http.StatusOK, "password changed")

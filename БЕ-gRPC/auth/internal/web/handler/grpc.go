@@ -15,23 +15,23 @@ import (
 type AuthServer struct {
 	auth.UnimplementedAuthServiceServer
 	service domain.UserService
-	jwt domain.JwtProvider
+	jwt     domain.JwtProvider
 }
 
 func NewAuthServer(service domain.UserService, jwt domain.JwtProvider) *AuthServer {
 	return &AuthServer{
 		service: service,
-		jwt: jwt,
+		jwt:     jwt,
 	}
 }
 
 func (a *AuthServer) CreateUser(ctx context.Context, req *auth.CreateUserRequest) (*auth.CreateUserResponse, error) {
 	res, err := a.service.CreateUser(ctx, contracts.CreateUserRequest{
-		Email: req.Email,
+		Email:     req.Email,
 		FirstName: req.FirstName,
-		LastName: req.LastName,
-		Phone: req.Phone,
-		Password: req.Password,
+		LastName:  req.LastName,
+		Phone:     req.Phone,
+		Password:  req.Password,
 	})
 	if err != nil {
 		return nil, err
@@ -40,7 +40,6 @@ func (a *AuthServer) CreateUser(ctx context.Context, req *auth.CreateUserRequest
 		Token: res.AccessToken,
 	}, nil
 }
-
 
 func (a *AuthServer) Authenticate(ctx context.Context, req *auth.AuthenticateRequest) (*auth.AuthenticateResponse, error) {
 	res, err := a.service.AuthenticateUser(ctx, contracts.AuthenticateRequest{
@@ -60,7 +59,7 @@ func (a *AuthServer) VerifyToken(ctx context.Context, req *auth.VerifyTokenReque
 	if err != nil {
 		return &auth.VerifyTokenResponse{
 			Valid: false,
-			}, err
+		}, err
 	}
 	return &auth.VerifyTokenResponse{
 		Valid: true,
@@ -77,7 +76,7 @@ func (a *AuthServer) ChangePassword(ctx context.Context, req *auth.ChangePasswor
 		return nil, status.Error(codes.Unauthenticated, "authorization header is missing")
 	}
 	token := strings.TrimPrefix(authHeader[0], "Bearer ")
-	
+
 	err := a.service.ChangePassword(ctx, contracts.ChangePasswordRequest{
 		Token:       token,
 		OldPassword: req.OldPassword,
@@ -87,7 +86,7 @@ func (a *AuthServer) ChangePassword(ctx context.Context, req *auth.ChangePasswor
 		return &auth.ChangePasswordResponse{
 			Success: false,
 			Message: err.Error(),
-		}, nil
+		}, err
 	}
 	return &auth.ChangePasswordResponse{
 		Success: true,
