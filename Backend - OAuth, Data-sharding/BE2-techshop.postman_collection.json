@@ -1,0 +1,812 @@
+{
+	"info": {
+		"_postman_id": "fa1839db-8c1d-440d-b947-764df55e53e9",
+		"name": "BE2-techshop",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "52263790",
+		"_collection_link": "https://korzher-6760396.postman.co/workspace/Korzher's-Workspace~53946ca0-72bf-4ff4-8ffc-613d01d8f24e/collection/52263790-fa1839db-8c1d-440d-b947-764df55e53e9?action=share&source=collection_link&creator=52263790"
+	},
+	"item": [
+		{
+			"name": "add client",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"client_name\": \"Alice\",\n    \"client_surname\": \"Charles\",\n    \"gender\" : \"F\",\n    \"birthday\" : \"1990-11-15T00:00:00Z\",\n    \"country\" : \"Russia\",\n    \"city\" : \"Moscow\",\n    \"street\" : \"Koroleva\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/clients",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"clients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete client",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/clients/{{id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"clients",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get client",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/clients/search?name=Alice&surname=Charles",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"clients",
+						"search"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Alice"
+						},
+						{
+							"key": "surname",
+							"value": "Charles"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all clients",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RfcmVnaXN0ZXJAeWFuZGV4LnJ1IiwiZXhwIjoxNzc4OTMxNDk4LCJpZCI6ImJlYzY0MzAwLTA0ZGEtNGExNi04ODQ4LWYzNzg0NWY1MWJlNiIsInR5cCI6ImFjY2VzcyJ9.taBfV41hWxR2WztSPb7EuaGLaVVE2eDvdS2i53EidDw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/clients",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"clients"
+					],
+					"query": [
+						{
+							"key": "offset",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "change client address",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ID\": \"2793f821-c8e2-4c5e-a1ad-9d0c706592d8\",\n    \"street\": \"Lenina\",\n    \"city\": \"Saint-Peterburg\",\n    \"country\": \"Russia\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/clients/{{id}}/address",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"clients",
+						"{{id}}",
+						"address"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get image by iid",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ID\": \"2793f821-c8e2-4c5e-a1ad-9d0c706592d8\",\n    \"street\": \"Lenina\",\n    \"city\": \"Saint-Peterburg\",\n    \"country\": \"Russia\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/image/{{imageid}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"image",
+						"{{imageid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get image by pid",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ID\": \"2793f821-c8e2-4c5e-a1ad-9d0c706592d8\",\n    \"street\": \"Lenina\",\n    \"city\": \"Saint-Peterburg\",\n    \"country\": \"Russia\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/image/product/{{productid}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"image",
+						"product",
+						"{{productid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add image",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"product_id\": \"e48241ff-4741-4388-a729-1160c12cc970\",\n    \"image\" : \"{{image}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/image/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"image",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "change image",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"5a881057-6d24-4736-8bde-b8d90c077621\",\n    \"image\" : \"{{image}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/image/{{imageid}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"image",
+						"{{imageid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete image",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ID\": \"2793f821-c8e2-4c5e-a1ad-9d0c706592d8\",\n    \"street\": \"Lenina\",\n    \"city\": \"Saint-Peterburg\",\n    \"country\": \"Russia\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/image/{{imageid}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"image",
+						"{{imageid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add product",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Refrigirator\",\n    \"category\": \"Electronics\",\n    \"price\": 1999,\n    \"available_stock\": 100,\n    \"supplier_id\": \"10f2ad56-e91c-4ed7-acfe-1c777acb3b3a\",\n    \"image\": \"{{imageBase64}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all products",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ID\": \"2793f821-c8e2-4c5e-a1ad-9d0c706592d8\",\n    \"street\": \"Lenina\",\n    \"city\": \"Saint-Peterburg\",\n    \"country\": \"Russia\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get product",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ID\": \"2793f821-c8e2-4c5e-a1ad-9d0c706592d8\",\n    \"street\": \"Lenina\",\n    \"city\": \"Saint-Peterburg\",\n    \"country\": \"Russia\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/products/{{productid}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"{{productid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "subtract product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ID\": \"220eb9d1-425f-4018-92c5-4ad5d5e2d693\",\n    \"amount\" : 5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/products/{{productid}}/subtract",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"{{productid}}",
+						"subtract"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete product",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ID\": \"2793f821-c8e2-4c5e-a1ad-9d0c706592d8\",\n    \"street\": \"Lenina\",\n    \"city\": \"Saint-Peterburg\",\n    \"country\": \"Russia\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/products/{{productid}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"{{productid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add supplier",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"School 21\",\n    \"phone_number\": \"8-910-123-67-89\",\n    \"city\": \"Moscow\",\n    \"country\": \"Russia\",\n    \"street\": \"Koroleva\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/suppliers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"suppliers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete supplier",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ID\": \"2793f821-c8e2-4c5e-a1ad-9d0c706592d8\",\n    \"street\": \"Lenina\",\n    \"city\": \"Saint-Peterburg\",\n    \"country\": \"Russia\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/suppliers/{id}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"suppliers",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all suppliers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ID\": \"2793f821-c8e2-4c5e-a1ad-9d0c706592d8\",\n    \"street\": \"Lenina\",\n    \"city\": \"Saint-Peterburg\",\n    \"country\": \"Russia\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/suppliers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"suppliers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get suppliers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ID\": \"2793f821-c8e2-4c5e-a1ad-9d0c706592d8\",\n    \"street\": \"Lenina\",\n    \"city\": \"Saint-Peterburg\",\n    \"country\": \"Russia\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/suppliers/{{supplierid}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"suppliers",
+						"{{supplierid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "address change supplier",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ID\": \"10f2ad56-e91c-4ed7-acfe-1c777acb3b3a\",\n    \"street\": \"Lenina\",\n    \"city\": \"Saint-Peterburg\",\n    \"country\": \"Russia\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/suppliers/{{supplierid}}/address",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"suppliers",
+						"{{supplierid}}",
+						"address"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "be4-register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"test_register@mail.ru\",\n    \"first_name\": \"John\",\n    \"last_name\" : \"Doe\",\n    \"phone\" : \"8-800-123-45-67\",\n    \"password\" : \"Test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "be4-auth",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"test_register@mail.ru\",\n    \"password\" : \"Test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/auth",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "be4-reset password",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"test_register@mail.ru\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/reset",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"reset"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "be4-change password",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"old_password\": \"Test\",\n    \"new_password\": \"new_password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/change",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"change"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "productid",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "supplierid",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "default"
+		}
+	]
+}

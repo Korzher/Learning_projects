@@ -1,0 +1,160 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: techshop_db
+    environment:
+      POSTGRES_DB: techshop
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 2s
+      retries: 10
+
+  migrate:
+    image: migrate/migrate:4
+    container_name: techshop_migrate
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./app/migrations:/migrations
+    entrypoint: [
+      "migrate",
+      "-path", "/migrations",
+      "-database", "postgres://postgres:postgres@postgres:5432/techshop?sslmode=disable",
+      "up"
+    ]
+    restart: "on-failure"
+
+  postgres_auth:
+    image: postgres:16-alpine
+    container_name: auth_db
+    environment:
+      POSTGRES_DB: grpc_auth
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_auth_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 2s
+      retries: 10
+
+  migrate_auth:
+    image: migrate/migrate:4
+    container_name: auth_migrate
+    depends_on:
+      postgres_auth:
+        condition: service_healthy
+    volumes:
+      - ./auth/migrations:/migrations
+    entrypoint: [
+      "migrate",
+      "-path", "/migrations",
+      "-database", "postgres://postgres:postgres@postgres_auth:5432/grpc_auth?sslmode=disable",
+      "up"
+    ]
+    restart: "on-failure"
+
+  app:
+    build:
+      context: .
+      dockerfile: ./app/Dockerfile
+    container_name: techshop-app
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: postgres
+      addr: auth:50051
+      images_addr: images:50052
+    depends_on:
+      postgres:
+        condition: service_healthy
+      images:
+        condition: service_started
+      migrate:
+        condition: service_completed_successfully
+    restart: on-failure
+
+  auth:
+    build:
+      context: .
+      dockerfile: ./auth/Dockerfile
+    container_name: auth_service
+    ports:
+      - "50051:50051"
+    environment:
+      DB_HOST: postgres_auth
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+    depends_on:
+      postgres_auth:
+        condition: service_healthy
+      migrate_auth:
+        condition: service_completed_successfully
+    restart: on-failure
+
+  postgres_images:
+    image: postgres:16-alpine
+    container_name: images_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_images_data:/var/lib/postgresql/data
+      - ./images/migrations/init-dbs.sh:/docker-entrypoint-initdb.d/init-dbs.sh
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 2s
+      retries: 10
+
+  migrate_images:
+    image: migrate/migrate:4
+    container_name: images_migrate
+    depends_on:
+      postgres_images:
+        condition: service_healthy
+    volumes:
+      - ./images/migrations:/migrations
+    entrypoint: >
+      /bin/sh -c "
+        migrate -path /migrations -database 'postgres://postgres:postgres@postgres_images:5432/images_shard_0?sslmode=disable' up &&
+        migrate -path /migrations -database 'postgres://postgres:postgres@postgres_images:5432/images_shard_1?sslmode=disable' up &&
+        migrate -path /migrations -database 'postgres://postgres:postgres@postgres_images:5432/images_shard_2?sslmode=disable' up &&
+        migrate -path /migrations -database 'postgres://postgres:postgres@postgres_images:5432/images_shard_3?sslmode=disable' up
+      "
+    restart: "on-failure"
+
+  images:
+    build:
+      context: .
+      dockerfile: ./images/Dockerfile
+    container_name: images_service
+    ports:
+      - "50052:50052"
+    environment:
+      DB_HOST: postgres_images
+    depends_on:
+      postgres_images:
+        condition: service_healthy
+      migrate_images:
+        condition: service_completed_successfully
+    restart: on-failure
+
+  
+volumes:
+  postgres_data:
+  postgres_auth_data:
+  postgres_images_data:
