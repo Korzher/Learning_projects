@@ -2,21 +2,24 @@ package application
 
 import (
 	"apifromspec/internal/domain"
-	"apifromspec/internal/infrastructure/web/images"
 	"context"
 	"fmt"
 
 	"github.com/google/uuid"
 )
 
+type ImageService interface {
+	AddImage(ctx context.Context, image []byte) (string, error)
+}
+
 type ProductService struct {
 	productStorage domain.ProductRepository
-	imagesClient   *images.Client
+	imagesClient   ImageService
 }
 
 func NewProductService(
 	ps domain.ProductRepository,
-	ic *images.Client,
+	ic ImageService,
 ) *ProductService {
 	return &ProductService{
 		productStorage: ps,
@@ -31,6 +34,9 @@ func (s *ProductService) CreateProduct(ctx context.Context, product *domain.Prod
 			return fmt.Errorf("failed to add image: %w", err)
 		}
 		parsedId, err := uuid.Parse(imageID)
+		if err != nil {
+			return err
+		}
 		product.ImageID = parsedId
 	}
 

@@ -1,13 +1,17 @@
 package middleware
 
 import (
-	"apifromspec/internal/infrastructure/web/auth"
 	"apifromspec/internal/infrastructure/web/utils"
+	"context"
 	"net/http"
 	"strings"
 )
 
-func AuthMiddleware(a *auth.Client) func(http.Handler) http.Handler {
+type TokenVerifier interface {
+	VerifyToken(ctx context.Context, token string) (bool, error)
+}
+
+func AuthMiddleware(a TokenVerifier) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			authHeader := r.Header.Get("Authorization")
