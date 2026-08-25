@@ -20,8 +20,14 @@ jobs:
         with:
           go-version: '1.25.3'
 
-      - name: Vet
-        run: cd "Backend - OAuth, Data-sharding" && go vet ./app/... ./auth/... ./images/...
+      - name: Vet app
+        run: cd "Backend - OAuth, Data-sharding/app" && go vet ./...
+
+      - name: Vet auth
+        run: cd "Backend - OAuth, Data-sharding/auth" && go vet ./...
+
+      - name: Vet images
+        run: cd "Backend - OAuth, Data-sharding/images" && go vet ./...
 
       - name: Test app
         run: cd "Backend - OAuth, Data-sharding/app" && go test ./... -cover
