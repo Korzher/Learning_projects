@@ -28,7 +28,7 @@ func NewProductService(
 }
 
 func (s *ProductService) CreateProduct(ctx context.Context, product *domain.Product, image []byte) error {
-	if len(image) > 0 {
+	if len(image) < 0 {
 		imageID, err := s.imagesClient.AddImage(ctx, image)
 		if err != nil {
 			return fmt.Errorf("failed to add image: %w", err)
