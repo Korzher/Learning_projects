@@ -4,11 +4,11 @@ on:
   push:
     branches: [master]
     paths:
-      - 'Backend - OAuth, Data-sharding/**'
+      - 'General Backend/Backend - OAuth, Data-sharding/**'
   pull_request:
     branches: [master]
     paths:
-      - 'Backend - OAuth, Data-sharding/**'
+      - 'General Backend/Backend - OAuth, Data-sharding/**'
 
 jobs:
   test:
@@ -21,22 +21,22 @@ jobs:
           go-version: '1.25.3'
 
       - name: Vet app
-        run: cd "Backend - OAuth, Data-sharding/app" && go vet ./...
+        run: cd "General Backend/Backend - OAuth, Data-sharding/app" && go vet ./...
 
       - name: Vet auth
-        run: cd "Backend - OAuth, Data-sharding/auth" && go vet ./...
+        run: cd "General Backend/Backend - OAuth, Data-sharding/auth" && go vet ./...
 
       - name: Vet images
-        run: cd "Backend - OAuth, Data-sharding/images" && go vet ./...
+        run: cd "General Backend/Backend - OAuth, Data-sharding/images" && go vet ./...
 
       - name: Test app
-        run: cd "Backend - OAuth, Data-sharding/app" && go test ./... -cover
+        run: cd "General Backend/Backend - OAuth, Data-sharding/app" && go test ./... -cover
 
       - name: Test auth
-        run: cd "Backend - OAuth, Data-sharding/auth" && go test ./... -cover
+        run: cd "General Backend/Backend - OAuth, Data-sharding/auth" && go test ./... -cover
 
       - name: Test images
-        run: cd "Backend - OAuth, Data-sharding/images" && go test ./... -cover
+        run: cd "General Backend/Backend - OAuth, Data-sharding/images" && go test ./... -cover
 
   build:
     name: Build docker images
@@ -47,8 +47,8 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Build app
-        run: cd "Backend - OAuth, Data-sharding" && docker build -f app/Dockerfile -t techshop-app .
+        run: cd "General Backend/Backend - OAuth, Data-sharding" && docker build -f app/Dockerfile -t techshop-app .
       - name: Build auth
-        run: cd "Backend - OAuth, Data-sharding" && docker build -f auth/Dockerfile -t auth-service .
+        run: cd "General Backend/Backend - OAuth, Data-sharding" && docker build -f auth/Dockerfile -t auth-service .
       - name: Build images
-        run: cd "Backend - OAuth, Data-sharding" && docker build -f images/Dockerfile -t images-service .
+        run: cd "General Backend/Backend - OAuth, Data-sharding" && docker build -f images/Dockerfile -t images-service .
